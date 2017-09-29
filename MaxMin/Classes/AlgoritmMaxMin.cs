@@ -13,7 +13,7 @@ namespace MaxMin
         private double max, min;
         private int vizinhos;
 
-        public void setMaxMin(double min, double max)
+        public void setMinMax(double min, double max)
         {
             this.min = min;
             this.max = max;
