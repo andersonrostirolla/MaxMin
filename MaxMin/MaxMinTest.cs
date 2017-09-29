@@ -18,7 +18,7 @@ namespace MaxMin
             InitializeComponent();
         }
 
-        private List<Double> linhaseparada = new List<Double>();
+        private List<Double> listDados = new List<Double>();
         private List<String> classificacao = new List<String>();
         private int cont = 0, cont2 = 0;
         private AlgoritmMaxMin alg = new AlgoritmMaxMin();
@@ -26,23 +26,23 @@ namespace MaxMin
         private void button1_Click(object sender, EventArgs e)
         {
             alg.setMaxMin(2.1,3.0);
-            alg.setVisinhos(2);
+            alg.setVizinhos(3);
             try
             {
                 StreamReader rd = new StreamReader(@"C:\Users\Anderson\Desktop\file2.csv");
                 string linha = "";
                 while ((linha = rd.ReadLine()) != null)
                 {
-                    linhaseparada.Add(Convert.ToDouble(linha));
+                    listDados.Add(Convert.ToDouble(linha));
                 }
 
                 rd.Close();
 
                 recursiveMethod();
 
-                for (int i = 0; i < linhaseparada.Count(); i++)
+                for (int i = 0; i < listDados.Count(); i++)
                 {
-                    foreach (double row in linhaseparada)
+                    foreach (double row in listDados)
                     {
                         alg.setClassificacao(row);
                         classificacao.Add(alg.getClassificacao());
@@ -55,8 +55,8 @@ namespace MaxMin
                     }
                 }
 
-                Console.WriteLine("Lista refeita:");
-                foreach (double row in linhaseparada)
+                Console.WriteLine("Lista tratada:");
+                foreach (double row in listDados)
                 {
                     Console.WriteLine(row.ToString());
                 }
@@ -70,88 +70,102 @@ namespace MaxMin
 
         public void recursiveMethod()
         {
-            for (int i = 0; i <= linhaseparada.Count() - alg.getVisinhos(); i++)
+            for (int i = 0; i <= listDados.Count() - alg.getVizinhos(); i++)
             {
-                if (i >= (linhaseparada.Count() - alg.getVisinhos()))
+                if (i >= (listDados.Count() - alg.getVizinhos()))
                 {
-                    for (int j = i; j < linhaseparada.Count(); j++)
+                    for (int j = i; j < listDados.Count(); j++)
                     {
-                        cont = linhaseparada.Count() - j;
-                        if ((linhaseparada[j] >= alg.getMin()) && (linhaseparada[j] <= alg.getMax()))
+                        cont = listDados.Count() - j;
+                        if ((listDados[j] >= alg.getMin()) && (listDados[j] <= alg.getMax()))
                         {
-                            linhaseparada[j] = linhaseparada[i];
+                            listDados[j] = listDados[i];
                         }
                         else
                         {
-                            if (j == linhaseparada.Count() - cont && alg.getVisinhos() == 1 && linhaseparada.Count() >= 1)
+                            if (j == listDados.Count() - cont && alg.getVizinhos() == 1 && listDados.Count() >= 1)
                             {
-                                linhaseparada[j] = linhaseparada[j - 1];
+                                listDados[j] = listDados[j - 1];
                             }
-                            else if (j == linhaseparada.Count() - cont && alg.getVisinhos() == 2 && linhaseparada.Count() >= 2)
+                            else if (j == listDados.Count() - cont && alg.getVizinhos() == 2 && listDados.Count() >= 2)
                             {
-                                linhaseparada[j] = ((linhaseparada[j - 1] + linhaseparada[j - 2]) / alg.getVisinhos());
+                                if (j < listDados.Count()-1)
+                                {
+                                    listDados[j] = ((listDados[j - 1] + listDados[j - 2] + listDados[j + 1]) / (alg.getVizinhos() - 1));
+                                }
+                                else
+                                {
+                                    listDados[j] = ((listDados[j - 1] + listDados[j - 2]) / alg.getVizinhos());
+                                }
                             }
-                            else if (j == linhaseparada.Count() - cont && alg.getVisinhos() == 3 && linhaseparada.Count() >= 3)
+                            else if (j == listDados.Count() - cont && alg.getVizinhos() == 3 && listDados.Count() >= 3)
                             {
-                                linhaseparada[j] = ((linhaseparada[j - 1] + linhaseparada[j - 2] + linhaseparada[j - 3]) / alg.getVisinhos());
+                                if (j < listDados.Count()-1)
+                                {
+                                    listDados[j] = ((listDados[j - 1] + listDados[j - 2] + listDados[j - 3] + listDados[j + 2] + listDados[j + 1]) / (alg.getVizinhos()-1));
+                                }
+                                else
+                                {
+                                    listDados[j] = ((listDados[j - 1] + listDados[j - 2] + listDados[j - 3]) / alg.getVizinhos());
+                                }
                             }
                         }
                     }
                 }
-                else if (i >= alg.getVisinhos())
+                else if (i >= alg.getVizinhos())
                 {
-                    if ((linhaseparada[i] >= alg.getMin()) && (linhaseparada[i] <= alg.getMax()))
+                    if ((listDados[i] >= alg.getMin()) && (listDados[i] <= alg.getMax()))
                     {
-                        linhaseparada[i] = linhaseparada[i];
+                        listDados[i] = listDados[i];
                     }
                     else
                     {
-                        switch (alg.getVisinhos())
+                        switch (alg.getVizinhos())
                         {
                             case 1:
-                                linhaseparada[i] = ((linhaseparada[i + 1] + linhaseparada[i - 1]) / (alg.getVisinhos() * 2));
+                                listDados[i] = ((listDados[i + 1] + listDados[i - 1]) / (alg.getVizinhos() * 2));
                                 break;
                             case 2:
-                                linhaseparada[i] = ((linhaseparada[i - 2] + linhaseparada[i - 1] + linhaseparada[i + 1] + linhaseparada[i + 2]) / (alg.getVisinhos() * 2));
+                                listDados[i] = ((listDados[i - 2] + listDados[i - 1] + listDados[i + 1] + listDados[i + 2]) / (alg.getVizinhos() * 2));
                                 break;
                             case 3:
-                                linhaseparada[i] = ((linhaseparada[i - 3] + linhaseparada[i - 2] + linhaseparada[i - 1] + linhaseparada[i + 1] + linhaseparada[i + 2] + linhaseparada[i + 3]) / (alg.getVisinhos() * 2));
+                                listDados[i] = ((listDados[i - 3] + listDados[i - 2] + listDados[i - 1] + listDados[i + 1] + listDados[i + 2] + listDados[i + 3]) / (alg.getVizinhos() * 2));
                                 break;
                             default:
-                                Console.WriteLine("O Tratamento para visinhos foi implementado somente até 3.");
+                                Console.WriteLine("O Tratamento para vizinhos foi implementado somente até 3.");
                                 break;
                         }
                     }
                 }
                 else
                 {
-                    cont2 = ((i+alg.getVisinhos()) - alg.getVisinhos());
-                    if ((linhaseparada[i] >= alg.getMin()) && (linhaseparada[i] <= alg.getMax()))
+                    cont2 = ((i+alg.getVizinhos()) - alg.getVizinhos());
+                    if ((listDados[i] >= alg.getMin()) && (listDados[i] <= alg.getMax()))
                     {
-                        linhaseparada[i] = linhaseparada[i];
+                        listDados[i] = listDados[i];
                     }
                     else
                     {
-                        if (i == cont2 && alg.getVisinhos() == 1 && linhaseparada.Count() >= 1)
+                        if (i == cont2 && alg.getVizinhos() == 1 && listDados.Count() >= 1)
                         {
-                            if (linhaseparada[i + 1] >= alg.getMin())
-                                linhaseparada[i] = linhaseparada[i + 1];
+                            if (listDados[i + 1] >= alg.getMin())
+                                listDados[i] = listDados[i + 1];
                             else
-                                linhaseparada[i] = alg.getMin();
+                                listDados[i] = alg.getMin();
                         }
-                        else if (i == cont2 && alg.getVisinhos() == 2 && linhaseparada.Count() >= 2)
+                        else if (i == cont2 && alg.getVizinhos() == 2 && listDados.Count() >= 2)
                         {
-                            if (linhaseparada[i + 1] >= alg.getMin())
-                                linhaseparada[i] = ((linhaseparada[i + 1] + linhaseparada[i + 2]) / alg.getVisinhos());
+                            if (listDados[i + 1] >= alg.getMin())
+                                listDados[i] = ((listDados[i + 1] + listDados[i + 2]) / alg.getVizinhos());
                             else
-                                linhaseparada[i] = alg.getMin();
+                                listDados[i] = alg.getMin();
                         }
-                        else if (i == cont2 && alg.getVisinhos() == 3 && linhaseparada.Count() >= 3)
+                        else if (i == cont2 && alg.getVizinhos() == 3 && listDados.Count() >= 3)
                         {
-                            if (linhaseparada[i + 1] >= alg.getMin())
-                                linhaseparada[i] = ((linhaseparada[i + 1] + linhaseparada[i + 2] + linhaseparada[i + 3]) / alg.getVisinhos());
+                            if (listDados[i + 1] >= alg.getMin())
+                                listDados[i] = ((listDados[i + 1] + listDados[i + 2] + listDados[i + 3]) / alg.getVizinhos());
                             else
-                                linhaseparada[i] = alg.getMin();
+                                listDados[i] = alg.getMin();
                         }
                     }
                 }

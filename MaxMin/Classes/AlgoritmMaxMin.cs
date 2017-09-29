@@ -11,7 +11,7 @@ namespace MaxMin
         private string anomalia;
         private string valorFinal;
         private double max, min;
-        private int visinhos;
+        private int vizinhos;
 
         public void setMaxMin(double min, double max)
         {
@@ -41,14 +41,14 @@ namespace MaxMin
             }
         }
 
-        public void setVisinhos(int valor)
+        public void setVizinhos(int valor)
         {
-            this.visinhos = valor;
+            this.vizinhos = valor;
         }
 
-        public int getVisinhos()
+        public int getVizinhos()
         {
-            return this.visinhos;
+            return this.vizinhos;
         }
 
         public String getClassificacao()
@@ -60,27 +60,7 @@ namespace MaxMin
         {
             string anomaliaClassificada = "";
 
-            /*foreach (double row in listaValores)
-            {
-                setClassificacao(row);
-                anomaliaClassificada = getClassificacao();
-
-                if (anomaliaClassificada == "1")
-                {
-                    if (Convert.ToDouble(row) == 0)
-                    {
-                        this.valorFinal = Convert.ToString(this.min);
-                    }
-                    else
-                    {
-                        this.valorFinal = Convert.ToString(Convert.ToDouble(row) / 2);
-                    }
-                }
-                else
-                {
-                    this.valorFinal = row;
-                }
-            }*/
+            //tudo que ta na MaxMin vai vir pra ca.
         }
 
         public String valorTratado()
