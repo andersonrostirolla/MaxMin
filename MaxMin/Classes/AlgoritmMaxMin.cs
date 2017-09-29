@@ -1,4 +1,5 @@
-﻿using System;
+﻿using MaxMin.Classes;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -8,30 +9,11 @@ namespace MaxMin
 {
     public class AlgoritmMaxMin
     {
-        private string anomalia;
-        private string valorFinal;
-        private double max, min;
-        private int vizinhos;
+        public string anomalia;
 
-        public void setMinMax(double min, double max)
+        public void setClassificacao(double valor, double min, double max)
         {
-            this.min = min;
-            this.max = max;
-        }
-
-        public double getMax()
-        {
-            return this.max;
-        }
-
-        public double getMin()
-        {
-            return this.min;
-        }
-
-        public void setClassificacao(Double valor)
-        {
-            if (valor > this.max || valor < this.min)
+            if (valor > max || valor < min)
             {
                 this.anomalia = "1";
             }
@@ -41,31 +23,82 @@ namespace MaxMin
             }
         }
 
-        public void setVizinhos(int valor)
-        {
-            this.vizinhos = valor;
-        }
-
-        public int getVizinhos()
-        {
-            return this.vizinhos;
-        }
-
         public String getClassificacao()
         {
             return anomalia;
         }
 
-        public void trataAnomalia(List<String> listaValores)
+        public List<Double> trataAnomalia(List<Double> listDados)
         {
-            string anomaliaClassificada = "";
+            List<String> classificacao = new List<String>();
+            Vizinho vizinho = new Vizinho();
 
-            //tudo que ta na MaxMin vai vir pra ca.
-        }
+            vizinho.setVizinhos(2);
+            vizinho.setMinMax(2.1, 4.0);
 
-        public String valorTratado()
-        {
-            return valorFinal;
+            switch (vizinho.getVizinhos())
+            {
+                case 1:
+                    vizinho.UmVizinho(listDados);
+
+                    for (int i = 0; i < listDados.Count(); i++)
+                    {
+                        foreach (double row in listDados)
+                        {
+                            setClassificacao(row, vizinho.getMin(), vizinho.getMax());
+                            classificacao.Add(getClassificacao());
+                        }
+
+                        if (classificacao.Contains("1"))
+                        {
+                            vizinho.UmVizinho(listDados);
+                            classificacao.Clear();
+                        }
+                    }
+                    break;
+                case 2:
+                    vizinho.DoisVizinhos(listDados);
+
+                    for (int i = 0; i < listDados.Count(); i++)
+                     {
+                         foreach (double row in listDados)
+                         {
+                             setClassificacao(row, vizinho.getMin(), vizinho.getMax());
+                             classificacao.Add(getClassificacao());
+                         }
+
+                         if (classificacao.Contains("1"))
+                         {
+                            vizinho.DoisVizinhos(listDados);
+                            classificacao.Clear();
+                         }
+                     }
+                    break;
+                case 3:
+                    vizinho.TresVizinhos(listDados);
+
+                    for (int i = 0; i < listDados.Count(); i++)
+                    {
+                        foreach (double row in listDados)
+                        {
+                            setClassificacao(row, vizinho.getMin(), vizinho.getMax());
+                            classificacao.Add(getClassificacao());
+                        }
+
+                        if (classificacao.Contains("1"))
+                        {
+                            vizinho.TresVizinhos(listDados);
+                            classificacao.Clear();
+                        }
+                    }
+                    break;
+                default:
+                    return listDados;
+
+            }
+
+            return listDados;
+
         }
     }
 }

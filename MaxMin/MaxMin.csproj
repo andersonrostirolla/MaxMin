@@ -48,6 +48,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Classes\AlgoritmMaxMin.cs" />
+    <Compile Include="Classes\Vizinho.cs" />
     <Compile Include="MaxMinTest.cs">
       <SubType>Form</SubType>
     </Compile>
